@@ -76,10 +76,9 @@ def proxy_view(request, url=None):
 
         content_type = response.headers['content-type']
         modified_content = str(soup)
-        data_sent = len(response.content)
-        data_received = len(request.body)
+        data_received = len(response.content)
+        data_sent = len(request.body)
         db_url = urlparse(url).scheme + '://' + urlparse(url).netloc
-        print(urlparse(url))
         visited_url_entry = VisitedURL.objects.filter(user=request.user, url=db_url).first()
         if not visited_url_entry:
             visited_url_entry = VisitedURL.objects.create(user=request.user, url=db_url)
