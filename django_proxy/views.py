@@ -11,6 +11,16 @@ from urllib.parse import urljoin, urlparse
 
 
 def user_authentication(request):
+    """
+    Handles user authentication from a single point.
+
+    Parameters:
+    - request (HttpRequest): The HTTP request object.
+
+    Returns:
+    - redirect: Redirects to 'user_cabinet' if authentication is successful.
+    - render: Renders 'single_point.html' for GET requests.
+    """
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -30,6 +40,15 @@ def user_authentication(request):
 
 @login_required
 def user_cabinet(request):
+    """
+    Renders the user cabinet page.
+
+    Parameters:
+    - request (HttpRequest): The HTTP request object.
+
+    Returns:
+    - render: Renders 'user_cabinet.html' with statistics and created_sites context.
+    """
     statistics = VisitedURL.objects.filter(user=request.user)
     created_sites = CreatedSites.objects.filter(user=request.user)
     context = {'statistics': statistics, 'created_sites': created_sites}
@@ -38,6 +57,16 @@ def user_cabinet(request):
 
 @login_required
 def change_attribute(request):
+    """
+    Handles changing user attributes.
+
+    Parameters:
+    - request (HttpRequest): The HTTP request object.
+
+    Returns:
+    - redirect: Redirects to 'user_cabinet' if attribute change is successful.
+    - JsonResponse: Returns a JSON response with an error message for invalid request methods.
+    """
     if request.method == 'POST':
         value = request.POST.get('inputField')
         attribute = request.POST.get('attributeList')
@@ -49,6 +78,17 @@ def change_attribute(request):
 
 
 def proxy_view(request, url=None):
+    """
+        Proxy view to fetch and modify content from a given URL.
+
+        Parameters:
+        - request (HttpRequest): The HTTP request object.
+        - url (str, optional): The URL to proxy. If not provided, it is extracted from the POST request.
+
+        Returns:
+        - HttpResponse: Modified content fetched from the specified URL.
+        - JsonResponse: JSON response with an error message in case of a request exception.
+    """
     try:
         if request.method == 'POST':
             url = request.POST.get('url')
@@ -95,6 +135,15 @@ def proxy_view(request, url=None):
 
 
 def create_site(request):
+    """
+    Creates a new site entry for the user.
+
+    Parameters:
+    - request (HttpRequest): The HTTP request object.
+
+    Returns:
+    - redirect: Redirects to 'user_cabinet' after creating the site entry.
+    """
     if request.method == 'POST':
         name = request.POST.get('name')
         url = request.POST.get('site_url')

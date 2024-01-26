@@ -4,136 +4,128 @@
     <meta charset="UTF-8">
     <title>User cabinet</title>
     <style>
-    #user-cabinet {
-        float: left;
-        margin-right: 20px;
-    }
+        #user-cabinet {
+            float: left;
+            margin-right: 20px;
+        }
 
-    #statistics {
-        float: left;
-        margin-right: 20px;
-    }
+        #statistics {
+            float: left;
+            margin-right: 20px;
+        }
 
-    #created-sites {
-        float: left;
-    }
+        #created-sites {
+            float: left;
+        }
 
-    .clearfix::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-</style>
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
 </head>
 <body>
-<div id="user-cabinet">
-<h2>User Cabinet</h2>
-<table border="1">
-  <tr>
-    <th>Attribute</th>
-    <th>Current Value</th>
-  </tr>
-  <tr>
-    <td>Username</td>
-    <td>{{ user.username }}</td>
-
-  </tr>
-  <tr>
-    <td>Email</td>
-    <td>{{ user.email }}</td>
-
-  </tr>
-  <tr>
-    <td>First Name</td>
-    <td>{{ user.first_name }}</td>
-
-  </tr>
-  <tr>
-    <td>Last Name</td>
-    <td>{{ user.last_name }}</td>
-
-  </tr>
-  <tr>
-    <td>Password</td>
-    <td>********</td>
-  </tr>
-</table>
-    <form action="{% url 'change_attribute' %}" method="POST">
-        {% csrf_token %}
-
-
-        <label for="attributeList">Choose an attribute:</label>
-        <select id="attributeList" name="attributeList">
-            <option value="username">Username</option>
-            <option value="email">Email</option>
-            <option value="first_name">First Name</option>
-            <option value="last_name">Last Name</option>
-            <option value="password">Password</option>
-        </select>
-
-        <br>
-        <label for="inputField">Update Value:</label>
-        <input type="text" id="inputField" name="inputField" required>
-
-        <br>
-        <button type="submit">Change</button>
-    </form>
-</div>
+    <div id="user-cabinet">
+        <h2>User Cabinet</h2>
+        <table border="1">
+            <tr>
+                <th>Attribute</th>
+                <th>Current Value</th>
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td>{{ user.first_name }}</td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td>{{ user.last_name }}</td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td>********</td>
+            </tr>
+        </table>
+        <form action="{% url 'change_attribute' %}" method="POST">
+            {% csrf_token %}
+            <label for="attributeList">Choose an attribute:</label>
+            <select id="attributeList" name="attributeList">
+                <option value="username">Username</option>
+                <option value="email">Email</option>
+                <option value="first_name">First Name</option>
+                <option value="last_name">Last Name</option>
+                <option value="password">Password</option>
+            </select>
+            <br>
+            <label for="inputField">Update Value:</label>
+            <input type="text" id="inputField" name="inputField" required>
+            <br>
+            <button type="submit">Change</button>
+        </form>
+    </div>
 
 
-<div id="statistics">
-    {% if statistics %}
-<h2>Statistics</h2>
-    <table border="1">
-        <thead>
+    <div id="statistics">
+        {% if statistics %}
+        <h2>Statistics</h2>
+        <table border="1">
+            <thead>
             <tr>
                 <th>URL</th>
                 <th>Visits</th>
                 <th>Data sent</th>
                 <th>Data received</th>
             </tr>
-        </thead>
-        <tbody>
-            {% for url_entry in statistics %}
+            </thead>
+            <tbody>
+                {% for url_entry in statistics %}
                 <tr>
                     <td>{{ url_entry.url }}</td>
                     <td>{{ url_entry.counter }}</td>
                     <td>{{ url_entry.data_sent|filesizeformat }}</td>
                     <td>{{ url_entry.data_received|filesizeformat }}</td>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
     </div>
 
-<div id="created-sites">
-    {% if created_sites %}
-    <h2>Created Sites</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>URL</th>
-                <th>Name</th>
-                <th>Go</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for url_entry in created_sites %}
+    <div id="created-sites">
+        {% if created_sites %}
+        <h2>Created Sites</h2>
+        <table border="1">
+            <thead>
                 <tr>
-                    <td>{{ url_entry.url }}</td>
-                    <td>{{ url_entry.name }}</td>
-                    <td><a href="{% url 'proxy_view' %}{{ url_entry.url }}">Visit</a></td>
+                    <th>URL</th>
+                    <th>Name</th>
+                    <th>Go</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-</div>
+            </thead>
+            <tbody>
+                {% for url_entry in created_sites %}
+                    <tr>
+                        <td>{{ url_entry.url }}</td>
+                        <td>{{ url_entry.name }}</td>
+                        <td><a href="{% url 'proxy_view' %}{{ url_entry.url }}">Visit</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
 
-<div class="clearfix"></div>
+    <div class="clearfix"></div>
 
- <h2>Create site URL</h2>
+    <h2>Create site URL</h2>
     <form action="{% url 'create_site' %}" method="post">
         {% csrf_token %}
         <label for="site_url">Enter URL:</label>
